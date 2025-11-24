@@ -54,5 +54,18 @@
   width: 200px;
   height: 201px;
   border-radius: 100%;
-
+}
+.profile-inner{
+  position: relative;
+}
+.badge{
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: green;
+  color: #000000;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 3px 5px 3px 5px;
+  font-weight:bold;
 }
