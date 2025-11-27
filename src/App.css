@@ -94,3 +94,11 @@ body {
   font-size: 1rem;
   margin-left: -1.5rem;
 }
+
+.pointer{
+  position: absolute;
+  background-color: lightgray;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
