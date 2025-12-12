@@ -1,98 +1,84 @@
 import React, { useState } from 'react';
 
-export default function AppMentor(props) {
-  const [person, setPerson] = useState([
-    {
-      name: '엘리',
-      title: '개발자',
-      mentor: {
+export default function AppMentor() {
+  // 1. 데이터 구조를 '배열(mentors)'로 변경
+  const [person, setPerson] = useState({
+    name: '엘리',
+    title: '개발자',
+    mentors: [
+      {
         name: '밥',
         title: '시니어개발자',
       },
-    },
-    {
-      name: '제이',
-      title: '디자이너',
-      mentor: {
-        name: '앨리스',
-        title: '수석디자이너',
+      {
+        name: '제임스',
+        title: '시니어개발자',
       },
-    },
-    {
-      name: '마이크',
-      title: '프론트엔드 개발자',
-      mentor: {
-        name: '존',
-        title: '테크 리드',
-      },
-    },
-  ]);
+    ],
+  });
 
   return (
     <div>
-      {/* map 함수 시작 */}
-      {person.map((p, index) => {
-        return (
-          <div key={index}>
-            <h1>
-              {/* person 대신 p를 써야 합니다 */}
-              {p.name}는 {p.title}
-            </h1>
-            <p>
-              {p.name}의 멘토는 {p.mentor.name} ({p.mentor.title})
-            </p>
-          </div>
-        );
-      })} 
-      {/* map 함수 끝: 여기서 닫아줘야 합니다 */}
+      <h1>
+        {person.name}는 {person.title}
+      </h1>
+      <p>{person.name}의 멘토 목록:</p>
+      <ul>
+        {/* 2. 배열이므로 map을 사용해 화면에 표시 */}
+        {person.mentors.map((mentor, index) => (
+          <li key={index}>
+            {mentor.name} ({mentor.title})
+          </li>
+        ))}
+      </ul>
 
+      {/* 멘토 이름 바꾸기 (밥 -> 다른이름) */}
       <button
         onClick={() => {
-          const name = prompt(`what's your mentor's name?`);
-          // 주의: 현재 이 로직은 '배열' 상태에서는 작동하지 않습니다. (객체용 로직)
-          setPerson((prev) => {
-            return {
-              ...prev,
-              mentor: {
-                ...prev.mentor,
-                name,
-              },
-            };
-          });
+          const prevName = prompt(`누구의 이름을 바꾸고 싶은가요?`);
+          const newName = prompt(`새로운 이름은 무엇인가요?`);
+          
+          setPerson((person) => ({
+            ...person,
+            // map을 돌면서 이름이 일치하는 멘토만 수정
+            mentors: person.mentors.map((mentor) => {
+              if (mentor.name === prevName) {
+                return { ...mentor, name: newName };
+              }
+              return mentor;
+            }),
+          }));
         }}
       >
         멘토 이름 바꾸기
       </button>
 
+      {/* 멘토 추가하기 */}
       <button
         onClick={() => {
-          const title = prompt(`what's your mentor's title?`);
-          // 주의: 현재 이 로직은 '배열' 상태에서는 작동하지 않습니다.
-          setPerson((prev) => {
-            return {
-              ...prev,
-              mentor: {
-                title,
-              },
-            };
-          });
+          const name = prompt(`멘토의 이름은?`);
+          const title = prompt(`멘토의 직함은?`);
+          
+          setPerson((person) => ({
+            ...person,
+            // 배열에 새로운 객체 추가 (Spread Operator 사용)
+            mentors: [...person.mentors, { name, title }],
+          }));
         }}
       >
         멘토 추가하기
       </button>
 
+      {/* 멘토 삭제하기 */}
       <button
         onClick={() => {
-          const title = prompt(`what's your mentor's title?`);
-          // 주의: 현재 이 로직은 '배열' 상태에서는 작동하지 않습니다.
-          setPerson((prev) => {
-            return {
-              ...prev,
-              mentor: {
-                title,
-              },
-            };
-          });
+          const name = prompt(`누구를 삭제하고 싶은가요?`);
+          
+          setPerson((person) => ({
+            ...person,
+            // filter를 사용하여 특정 멘토 제거
+            mentors: person.mentors.filter((m) => m.name !== name),
+          }));
         }}
       >
         멘토 삭제하기
