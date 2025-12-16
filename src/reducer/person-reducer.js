@@ -1,4 +1,4 @@
-function personReducer(person, action){1
+function personReducer(person, action){
     switch(action.type){
         case 'updated': {
             const {prev, current} = action;
