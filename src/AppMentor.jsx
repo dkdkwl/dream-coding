@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 export default function AppMentor() {
+  // 1. 데이터 구조를 '배열(mentors)'로 변경
   const [person, setPerson] = useState({
     name: '엘리',
     title: '개발자',
