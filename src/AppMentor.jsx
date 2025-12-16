@@ -1,98 +1,82 @@
 import React, { useState } from 'react';
 
-export default function AppMentor(props) {
-  const [person, setPerson] = useState([
-    {
-      name: '엘리',
-      title: '개발자',
-      mentor: {
+export default function AppMentor() {
+  const [person, setPerson] = useState({
+    name: '엘리',
+    title: '개발자',
+    mentors: [
+      {
         name: '밥',
         title: '시니어개발자',
       },
-    },
-    {
-      name: '제이',
-      title: '디자이너',
-      mentor: {
-        name: '앨리스',
-        title: '수석디자이너',
+      {
+        name: '제임스',
+        title: '시니어개발자',
       },
-    },
-    {
-      name: '마이크',
-      title: '프론트엔드 개발자',
-      mentor: {
-        name: '존',
-        title: '테크 리드',
-      },
-    },
-  ]);
+    ],
+  });
 
   return (
     <div>
-      {/* map 함수 시작 */}
-      {person.map((p, index) => {
-        return (
-          <div key={index}>
-            <h1>
-              {/* person 대신 p를 써야 합니다 */}
-              {p.name}는 {p.title}
-            </h1>
-            <p>
-              {p.name}의 멘토는 {p.mentor.name} ({p.mentor.title})
-            </p>
-          </div>
-        );
-      })} 
-      {/* map 함수 끝: 여기서 닫아줘야 합니다 */}
+      {/* 1. 멘토 리스트 보여주기 */}
+      <h2>{person.name} ({person.title})의 멘토 목록</h2>
+      <ul>
+        {person.mentors.map((mentor, index) => (
+          <li key={index}>
+            {mentor.name} ({mentor.title})
+          </li>
+        ))}
+      </ul>
 
+      {/* 2. 멘토 이름 바꾸기 버튼 (여기가 수정됨!) */}
       <button
         onClick={() => {
-          const name = prompt(`what's your mentor's name?`);
-          // 주의: 현재 이 로직은 '배열' 상태에서는 작동하지 않습니다. (객체용 로직)
-          setPerson((prev) => {
-            return {
-              ...prev,
-              mentor: {
-                ...prev.mentor,
-                name,
-              },
-            };
-          });
+          const prevName = prompt(`누구의 이름을 바꾸고 싶은가요?`);
+          const newName = prompt(`이름을 무엇으로 바꾸고 싶은가요?`);
+
+          setPerson((prev) => ({
+            ...prev,
+            mentors: prev.mentors.map((mentor) => {
+              if (mentor.name === prevName) {
+                // 수정 포인트: current -> newName, 세미콜론(;) 제거
+                return { ...mentor, name: newName }; 
+              }
+              // 이름이 다르면 원래 멘토 유지
+              return mentor;
+            }),
+          }));
         }}
       >
         멘토 이름 바꾸기
       </button>
 
+      {/* 3. 멘토 추가하기 버튼 */}
       <button
         onClick={() => {
-          const title = prompt(`what's your mentor's title?`);
-          // 주의: 현재 이 로직은 '배열' 상태에서는 작동하지 않습니다.
-          setPerson((prev) => {
-            return {
-              ...prev,
-              mentor: {
-                title,
-              },
-            };
-          });
+          const name = prompt(`새로운 멘토의 이름은?`);
+          const title = prompt(`새로운 멘토의 직함은?`);
+
+          setPerson((prev) => ({
+            ...prev,
+            mentors: [
+              ...prev.mentors,
+              { name, title },
+            ],
+          }));
         }}
       >
         멘토 추가하기
       </button>
 
+      {/* 4. 멘토 삭제하기 버튼 */}
       <button
         onClick={() => {
-          const title = prompt(`what's your mentor's title?`);
-          // 주의: 현재 이 로직은 '배열' 상태에서는 작동하지 않습니다.
-          setPerson((prev) => {
-            return {
-              ...prev,
-              mentor: {
-                title,
-              },
-            };
-          });
+          const targetName = prompt(`삭제할 멘토의 이름은?`);
+          
+          setPerson((prev) => ({
+            ...prev,
+            mentors: prev.mentors.filter((mentor) => mentor.name !== targetName),
+          }));
         }}
       >
         멘토 삭제하기
