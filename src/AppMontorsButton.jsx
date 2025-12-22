@@ -13,7 +13,7 @@ export default function AppMentorsButton() {
   const handleAdd = useCallback(() => {
     const name = prompt(`멘토의 이름은?`);
     const title = prompt(`멘토의 직함은?`);
-    dispatch({ type: 'added', name, title });
+    dispatch({ type: 'added', mentor: { name, title } });
   }, []);
 
   const handleDelete = useCallback(() => {
