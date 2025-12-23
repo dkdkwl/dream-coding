@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Products from './components/Products';
+import styles from './assets/css/button2.module.css';
 
 export default function AppProducts() {
   const [showProducts, setShowProducts] = useState(true);
@@ -8,7 +9,7 @@ export default function AppProducts() {
   return (
     <div>
       {showProducts && <Products />}
-      <button onClick={() => setShowProducts((show) => !show)}>Toggle</button>
+      <button className={styles.button} onClick={() => setShowProducts((show) => !show)}>Toggle</button>
     </div>
   );
 }
